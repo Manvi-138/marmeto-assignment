@@ -1,115 +1,93 @@
-fetch(
-  "https://cdn.shopify.com/s/files/1/0564/3685/0790/files/multiProduct.json"
-)
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("URL not found");
-    }
-    return response.json();
-  })
-  .then((data) => {
-    if (!data || !data.categories) {
-      console.log("Category Not Found");
-    }
-
-    const productCategory = data.categories;
-    const tabs = document.getElementById("category-tab");
-    const nameCategory = document.getElementById("category-type");
-
-    productCategory.forEach((category, value) => {
-      const tab = document.createElement("button");
-      tab.classList.add("categories-tab");
-      tab.textContent = category.category_name;
-
-      const content = document.createElement("div");
-      content.classList.add("categories-content");
-
-      category.category_products.forEach((product) => {
-        const products = document.createElement("div");
-        products.classList.add("categories-product");
-
-        const productImg = document.createElement("div");
-        productImg.classList.add("product-image");
-
-        const img = document.createElement("img");
-        img.src = product.image;
-        img.alt = product.title;
-
-        const badgeButton = document.createElement("button");
-        badgeButton.classList.add("badge-button");
-        badgeButton.textContent = product.badge_text || "";
-        badgeButton.disabled = true;
-
-        productImg.appendChild(img);
-        productImg.appendChild(badgeButton);
-
-        products.appendChild(productImg);
-
-        const productTitle = document.createElement("h3");
-        productTitle.id = "title";
-        productTitle.textContent = `${product.title}`;
-        products.appendChild(productTitle);
-
-        const vendorName = document.createElement("li");
-        vendorName.id = "vendor";
-        vendorName.textContent = `${product.vendor}`;
-        products.appendChild(vendorName);
-
-        const prodctDetail = document.createElement("div");
-        prodctDetail.id = "product-details";
-
-        const price = document.createElement("li");
-        price.id = "price";
-        price.textContent = `Rs ${product.price}`;
-        prodctDetail.appendChild(price);
-
-        const compare = document.createElement("li");
-        compare.id = "compare-price";
-        compare.textContent = `${product.compare_at_price}.00`;
-        prodctDetail.appendChild(compare);
-
-        const offer = document.createElement("li");
-        offer.id = "offer";
-
-        const discount =
-          ((product.compare_at_price - product.price) /
-            product.compare_at_price) *
-          100;
-        offer.textContent = `${discount.toFixed(2)}% off`;
-
-        prodctDetail.appendChild(offer);
-
-        products.appendChild(prodctDetail);
-
-        const button = document.createElement("button");
-        button.id = "button";
-        button.textContent = "Add to Cart";
-        products.appendChild(button);
-
-        content.appendChild(products);
-      });
-
-      tab.addEventListener("click", () => {
-        document.querySelectorAll(".categories-content").forEach((content) => {
-          content.style.display = "none";
-        });
-
-        content.style.display = "flex";
-        document.querySelectorAll(".categories-tab").forEach((t) => {
-          t.classList.remove("active");
-        });
-
-        tab.classList.add("active");
-      });
-
-      tabs.appendChild(tab);
-      nameCategory.appendChild(content);
-
-      if (value === 0) {
-        tab.click();
+document.addEventListener("DOMContentLoaded", function() {
+  fetch('https://cdn.shopify.com/s/files/1/0564/3685/0790/files/multiProduct.json')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
+      return response.json();
+    })
+    .then(data => {
+      // Assuming your JSON structure has categories containing products
+      const categories = data.categories;
+
+      // Filtering products for each category
+      const menProducts = categories.find(category => category.category_name === 'Men').category_products;
+      const womenProducts = categories.find(category => category.category_name === 'Women').category_products;
+      const childrenProducts = categories.find(category => category.category_name === 'Kids').category_products;
+
+      // Displaying products when tabs are clicked
+      const menTab = document.getElementById('men-tab');
+      const womenTab = document.getElementById('women-tab');
+      const childrenTab = document.getElementById('children-tab');
+
+      const menProductsContainer = document.getElementById('men-products');
+      const womenProductsContainer = document.getElementById('women-products');
+      const childrenProductsContainer = document.getElementById('children-products');
+
+      menTab.addEventListener('click', () => {
+        displayProducts(menProducts, menProductsContainer);
+        toggleTabActive(menTab);
+      });
+
+      womenTab.addEventListener('click', () => {
+        displayProducts(womenProducts, womenProductsContainer);
+        toggleTabActive(womenTab);
+      });
+
+      childrenTab.addEventListener('click', () => {
+        displayProducts(childrenProducts, childrenProductsContainer);
+        toggleTabActive(childrenTab);
+      });
+
+      // Default display when the page loads
+      displayProducts(menProducts, menProductsContainer);
+      toggleTabActive(menTab);
+    })
+    .catch(error => {
+      console.error('Error fetching or parsing data:', error);
     });
-  })
-  .catch((error) => {
-    console.error(error);
+
+    function displayProducts(products, container) {
+  container.innerHTML = '';
+  products.forEach(product => {
+    const productDiv = document.createElement('div');
+    productDiv.classList.add('productContainer'); // Adding a class named 'product'
+    
+    // Calculate the percentage off
+    const price = parseFloat(product.price);
+    const comparePrice = parseFloat(product.compare_at_price);
+    const percentageOff = ((comparePrice - price) / comparePrice) * 100;
+
+    productDiv.innerHTML = `
+      <!-- You can add a second image if present -->
+      ${
+        product.image !== 'empty'
+          ? `<img src="${product.image}" alt="${product.title}" class="product-image" />`
+          : ''
+      }
+      <h3><span class="product_title_name"> ${product.title} </span> <span class="dot">.</span> <span class="product_vender">${product.vendor}</span> </h3>
+      <p class="badge_text">${product.badge_text}</p>
+      <p class="product_price">Rs ${product.price}.00  <s class="compared_price">${product.compare_at_price}.00</s> <span class="discount_percentage">${percentageOff.toFixed(0)}% Off</span></p>
+      
+      <button class="add_to_card">Add to Cart</button>
+      <!-- Add other relevant fields you have in your JSON -->
+    `;
+    container.appendChild(productDiv);
   });
+}
+
+
+
+  function toggleTabActive(tab) {
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+
+    const productContainers = document.querySelectorAll('.product-container');
+    productContainers.forEach(pc => pc.classList.remove('active'));
+
+    const correspondingContainerId = `${tab.id.split('-')[0]}-products`;
+    const correspondingContainer = document.getElementById(correspondingContainerId);
+    correspondingContainer.classList.add('active');
+  }
+});
