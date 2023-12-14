@@ -1,187 +1,204 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap'); 
-*{
-  font-family: 'Inter', sans-serif;
+* {
+  font-family: "Inter", sans-serif;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  overflow-x: hidden;
+.tab.active span {
+  display: inline-flex;
 }
-
-div {
-  text-align: center;
+.tab {
+  cursor: pointer;
+  padding: 5px 31px;
+  background: #f2f2f2;
+  display: inline-block;
+  font-size: 8px;
+  margin-bottom: 20px;
 }
-
-#category-type {
-  max-height: 400px;
-  /* overflow-y: auto; */
+.product-container {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
 }
-
-.categories-tab {
-  width: 200px;
-  display: inline-block;
-  padding: 15px;
-  cursor: pointer;
-  border: none;
-  box-sizing: border-box;
-}
-
-.categories-tab:hover {
+.tab.active {
   background-color: black;
   color: white;
+  border-radius: 2px;
 }
-
-.categories-tab.active .badge-button {
-  color: black;
+.tab.active span {
+  margin-right: 4px;
 }
-
-.categories-content {
+.product-container {
   display: none;
-  margin-top: 5px;
-  overflow: hidden;
 }
-
-.categories-product {
-  position: relative;
-  padding: 10px;
-  width: calc(33.33% - 20px);
-  margin: 10px;
-  box-sizing: border-box;
+.product-container.active {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin-top: 16px;
+  gap: 20px;
 }
-
-.product-image {
+.productContainer {
+  width: 18%;
   position: relative;
-  width: 100%;
-  padding-top: 88%;
 }
-
-.product-image img {
+p.badge_text {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 130%;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
-.badge-button {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  background-color: white;
+  top: 2px;
   color: black;
-  padding: 5px;
-  border: none;
-  border-radius: 5px;
-  font-size: 12px;
-  cursor: default;
+  background-color: white;
+  padding: 1px;
+  min-width: 45px;
+  left: 7px;
+  border-radius: 2px;
+  text-align: center;
 }
-
-#title {
-  margin-top: 80px;
-  max-width: 100%;
-  white-space: normal;
+.productContainer img.product-image {
+  width: 90%;
+  height: 100%;
+  aspect-ratio: 70 / 50;
+  object-fit: initial;
+  border-radius: 2px;
+}
+.tab.active {
+  font-family: "Inter", sans-serif;
+}
+span.product_title_name {
+  white-space: nowrap;
   overflow: hidden;
-  /* text-overflow: ellipsis; */
-  font-size: 16px;
-  font-weight: bold;
+  text-overflow: ellipsis;
+  width: 80%;
+  display: inline-block;
+  font-weight: 550;
+  margin-bottom: 10px;
 }
-
-#vendor {
-  margin-top: 20px;
-  font-style: normal;
-  /* white-space: none; */
-  /* display: flex; */
-  color: #141313;
-  margin-left: 120px;
+h1.main_heading {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 19px;
+  letter-spacing: 0em;
 }
-
-#product-details {
+div#tabs {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+}
+.productContainer h3 {
+  font-weight: 600;
+
+  margin-top: 3px;
+}
+span.product_vender {
+  color: #000;
+
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-right: 60px;
+  margin-bottom: 8px;
+}
+span.dot {
+  margin-bottom: 16px;
+  margin-right: 6px;
+}
+.productContainer h3 {
+  margin-bottom: 0;
+  display: flex;
   align-items: center;
-  margin-top: 5px;
-  font-size: 14px;
-  width: 100%;
 }
-
-#price,
-#compare-price,
-#offer {
-  list-style: none;
-  margin-left: 0;
-  padding: 4px 2px;
+.productContainer p {
+  margin-top: 1px;
 }
-
-#compare-price {
-  text-decoration: line-through;
-  color: #aaa;
+p.badge_text {
+  font-family: "Inter", sans-serif;
 }
+p.product_price {
+  color: #000;
 
-#offer {
-  color: #e44d4d;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 }
+s.compared_price {
+  color: #8f8f8f;
+  margin-left: 4px;
+}
+span.discount_percentage {
+  color: #ff3737;
 
-#button {
-  background-color: #0f0f0f;
-  color: white;
-  width: 100%;
-  height: 40px;
-  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+.discount_percentage {
+  margin-left: 4px;
+}
+button.add_to_card {
+  color: #fff;
+
+  border-radius: 2px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  background-color: black;
   border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 5px;
+  width: 100%;
+  padding: 8px 10px 8px 10px;
 }
 
-@media (max-width: 767px) {
-  .categories-product {
-    width: 100%;
-    margin-bottom: 10px;
-  }
 
-  #categories-tabs,
-  #categories-content {
-    text-align: center;
-  }
+button.add_to_card,
+span.discount_percentage,
+p.product_price,
+span.product_vender {
+  font-size: 6px;
+}
 
-  .categories-tab {
-    width: 100%;
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  button.add_to_card,
+  span.discount_percentage,
+  p.product_price,
+  span.product_vender {
+    font-size: 10px;
   }
-
-  .content {
-    margin-top: 5px;
+  .tab {
+    font-size: 20px;
+  }
+  .tab.active svg {
+    height: 17px;
+    width: 18px;
+  }
+}
+@media only screen and (min-width: 1025px) {
+  .tab.active svg {
+    height: 17px;
+    width: 18px;
+  }
+  .productContainer h3 {
+    line-height: 20px;
+  }
+  button.add_to_card,
+  span.discount_percentage,
+  p.product_price,
+  span.product_vender {
+    font-size: 13px;
+  }
+  .tab {
+    font-size: 20px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .product-container.active {
     display: flex;
-    flex-direction: column;
+    margin-top: 16px;
+    gap: 6px;
   }
-
-  #product-details {
-    display: flex;
-    flex-direction: column;
+  .productContainer {
+    font-size: 8px;
   }
-
-  #button {
-    margin-top: 5px;
+  .productContainer img.product-image {
+    aspect-ratio: 70 / 27;
+    object-fit: initial;
   }
-}
-
-@media (min-width: 768px) and (max-width: 1024px) {
-  .categories-product {
-    width: calc(50% - 20px);
+  .productContainer {
+    width: 23%;
   }
-}
-
-@media (min-width: 1025px) {
-  .categories-product {
-    width: calc(33.33% - 20px);
+  .productContainer h3 {
+    font-size: 8px;
   }
 }
